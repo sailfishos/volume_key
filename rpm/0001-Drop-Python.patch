@@ -1,0 +1,63 @@
+From fe482b4d9b40c379f950b0b997d0dceeb7de481b Mon Sep 17 00:00:00 2001
+From: Raine Makelainen <raine.makelainen@jolla.com>
+Date: Thu, 7 Dec 2017 16:04:47 +0200
+Subject: [PATCH] Drop Python
+
+Signed-off-by: Raine Makelainen <raine.makelainen@jolla.com>
+---
+ Makefile.am | 18 ------------------
+ 1 file changed, 18 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 4569bbf..b1e2c34 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -20,7 +20,6 @@ ACLOCAL_AMFLAGS = -I m4
+ AM_CPPFLAGS = $(blkid_CFLAGS) $(glib_CFLAGS) $(GPGME_CFLAGS) \
+ 	$(libcryptsetup_CFLAGS) $(nss_CFLAGS)
+ LOCALEDIR_CPPFLAGS = -DLOCALEDIR='"$(localedir)"'
+-PYTHON_CPPFLAGS = -I/usr/include/python$(PYTHON_VERSION)
+ 
+ ## Targets
+ SUBDIRS = po
+@@ -31,24 +30,13 @@ dist_man_MANS = doc/volume_key.8
+ lib_LTLIBRARIES = lib/libvolume_key.la
+ pkginclude_HEADERS = lib/libvolume_key.h
+ 
+-pyexec_PYTHON = python/volume_key.py
+-pyexec_LTLIBRARIES = python/_volume_key.la
+-
+ TESTS = tests/packet_roundtrips.sh
+ 
+ EXTRA_DIST = contrib/email/README contrib/email/escrow-receive \
+ 	contrib/email/escrow-transit \
+-	python/volume_key.i \
+ 	tests/packet_roundtrips.sh tests/packet_roundtrips_luks_passphrase \
+ 	tests/packet_roundtrips_luks_symmetric
+ 
+-## Rules
+-python/volume_key_wrap.c python/volume_key.py: python/volume_key.i
+-	swig -Wall -python -I$(top_srcdir) -o python/volume_key_wrap.c \
+-		$(top_srcdir)/python/volume_key.i
+-
+-python/volume_key.py: python/volume_key_wrap.c
+-
+ ## Dependency data
+ lib_libvolume_key_la_SOURCES = lib/SECerrs.h lib/SSLerrs.h \
+ 	lib/crypto.c lib/crypto.h \
+@@ -62,12 +50,6 @@ lib_libvolume_key_la_LDFLAGS = -version-info 3:2:2
+ lib_libvolume_key_la_LIBADD = $(blkid_LIBS) $(glib_LIBS) $(GPGME_LIBS) \
+ 	$(LTLIBINTL) $(libcryptsetup_LIBS) $(nss_LIBS)
+ 
+-python__volume_key_la_SOURCES = python/volume_key_wrap.c
+-python__volume_key_la_CPPFLAGS = $(AM_CPPFLAGS) $(PYTHON_CPPFLAGS)
+-python__volume_key_la_LDFLAGS = -module -avoid-version $(glib_LIBS)
+-python__volume_key_la_LIBADD = lib/libvolume_key.la -lpython$(PYTHON_VERSION) \
+-	$(glib_LIBS) $(nss_LIBS)
+-
+ src_volume_key_SOURCES = src/volume_key.c
+ src_volume_key_CPPFLAGS = $(AM_CPPFLAGS) $(LOCALEDIR_CPPFLAGS)
+ src_volume_key_LDADD = lib/libvolume_key.la $(glib_LIBS) $(nss_LIBS)
+-- 
+2.7.4
+
