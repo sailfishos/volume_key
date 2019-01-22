@@ -67,6 +67,14 @@ back up can also be useful for extracting data after a hardware or software
 failure that corrupts the header of the encrypted volume, or to access the
 company data after an employee leaves abruptly.
 
+%package doc
+Summary:   Documentation for %{name}
+Group:     Documentation
+Requires:  %{name} = %{version}-%{release}
+
+%description doc
+Man and info pages for %{name}.
+
 %prep
 %setup -q -n %{name}-%{version}/%{name}
 
@@ -83,6 +91,12 @@ make %{?_smp_mflags}
 %install
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p'
 
+mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/contrib/email
+install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
+        AUTHORS ChangeLog NEWS README
+install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/contrib/email \
+        contrib/email/*
+
 %find_lang volume_key
 
 %clean
@@ -93,19 +107,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc README contrib
-%{_bindir}/volume_key
-%{_mandir}/man8/volume_key.8*
+%license COPYING
+%{_bindir}/%{name}
 
 %files devel
 %defattr(-,root,root,-)
-%doc COPYING ChangeLog NEWS
-%{_includedir}/volume_key
-%exclude %{_libdir}/libvolume_key.la
-%{_libdir}/libvolume_key.so
+%{_includedir}/%{name}
+%exclude %{_libdir}/lib%{name}.la
+%{_libdir}/lib%{name}.so
 
-%files libs -f volume_key.lang
+%files libs -f %{name}.lang
 %defattr(-,root,root,-)
-%doc AUTHORS
-%{_libdir}/libvolume_key.so.*
+%license COPYING
+%{_libdir}/lib%{name}.so.*
 
+%files doc
+%defattr(-,root,root,-)
+%{_mandir}/man8/%{name}.8*
+%{_docdir}/%{name}-%{version}
