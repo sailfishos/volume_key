@@ -4,7 +4,7 @@ Version: 0.3.9
 Release: 1
 License: GPLv2
 Group: Applications/System
-URL: https://pagure.io/volume_key/
+URL: https://github.com/sailfishos/volume_key
 Requires: volume_key-libs = %{version}-%{release}
 
 Source0: %{name}-%{version}.tar.gz
