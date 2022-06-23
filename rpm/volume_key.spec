@@ -3,8 +3,7 @@ Name: volume_key
 Version: 0.3.9
 Release: 1
 License: GPLv2
-Group: Applications/System
-URL: https://pagure.io/volume_key/
+URL: https://github.com/sailfishos/volume_key
 Requires: volume_key-libs = %{version}-%{release}
 
 Source0: %{name}-%{version}.tar.gz
@@ -39,7 +38,6 @@ company data after an employee leaves abruptly.
 
 %package devel
 Summary: A library for manipulating storage encryption keys and passphrases
-Group: Development/Libraries
 Requires: volume_key-libs = %{version}-%{release}
 
 %description devel
@@ -54,7 +52,6 @@ company data after an employee leaves abruptly.
 
 %package libs
 Summary: A library for manipulating storage encryption keys and passphrases
-Group: System Environment/Libraries
 Requires: gnupg2
 
 %description libs
@@ -69,7 +66,6 @@ company data after an employee leaves abruptly.
 
 %package doc
 Summary:   Documentation for %{name}
-Group:     Documentation
 Requires:  %{name} = %{version}-%{release}
 
 %description doc
